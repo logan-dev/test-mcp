@@ -1,7 +1,6 @@
 from fastmcp import FastMCP
 import os
 import sqlite3
-from prefect import flow
 
 DB_PATH = os.path.join(os.path.dirname(__file__), "expenses.db")
 CATEGORIES_PATH = os.path.join(os.path.dirname(__file__), "categories.json")
@@ -77,12 +76,7 @@ def categories():
     # Read fresh each time so you can edit the file without restarting
     with open(CATEGORIES_PATH, "r", encoding="utf-8") as f:
         return f.read()
-    
-
-@flow
-def run():
-    mcp.run(transport="http", host="0.0.0.0", port=8000)    
 
 if __name__ == "__main__":
     # Run the MCP server using stdio transport (default)
-    run()
+    mcp.run(transport="http", host="0.0.0.0", port=8000)
